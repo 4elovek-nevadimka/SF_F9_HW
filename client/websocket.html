@@ -10,6 +10,7 @@
     $(function () {
       
       var conn = null;
+      connect();
       
       function log(msg) {
         var control = $('#log');
@@ -76,7 +77,7 @@
         $('#text').val('').focus();
         return false;
       });
-      
+
       $('#text').keyup(function (e) {
         if (e.keyCode === 13) {
           $('#send').click();

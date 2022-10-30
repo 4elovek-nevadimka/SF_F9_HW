@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+  <title>Hot news</title>
+</head>
+
+<body>
+  <h3>Hot news</h3>
+  <div id="log" style="width:20em;height:15em;overflow:auto;border:1px solid black">
+  </div>
+
+  <script language="javascript" type="text/javascript">
+
+    $(function () {
+
+      var conn = null;
+      connect();
+
+      function log(msg) {
+        var control = $('#log');
+        control.html(control.html() + msg + '<br/>');
+        control.scrollTop(control.scrollTop() + 1000);
+      }
+
+      function connect() {
+
+        disconnect();
+
+        var wsUri = (window.location.protocol == 'https:' && 'wss://' || 'ws://') + window.location.host + "/ws";
+        
+        conn = new WebSocket(wsUri);
+
+        conn.onopen = function () {
+          // log('Connected.');
+        };
+        conn.onmessage = function (e) {
+          log('Received: ' + e.data);
+        };
+        conn.onclose = function () {
+          // log('Disconnected.');
+          conn = null;
+        };
+      }
+
+      function disconnect() {
+        if (conn != null) {
+          conn.close();
+          conn = null;
+        }
+      }
+
+    });
+
+  </script>
+</body>
+
+</html>
