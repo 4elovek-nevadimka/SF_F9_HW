@@ -1,15 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="margin:0;padding:0;height:100%;">
 
 <head>
-  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
   <title>Hot news</title>
 </head>
 
-<body>
-  <h3>Hot news</h3>
-  <div id="log" style="width:20em;height:15em;overflow:auto;border:1px solid black">
+<body style="margin:0;padding:0;height:100%;scrollbar-width:none;-ms-overflow-style:none;">
+  <div style="background: rgb(0, 0, 0);background: rgba(0, 0, 0, 0.1);overflow: hidden;">
+    <h3 style="float: left; color: #000000; text-align: center; padding: 5px 30px; margin: 0px;">
+      Hot news
+    </h3>
+  </div>
+  <div style="display: flex; flex-direction: column; margin: 0 auto; width: 700px;">
+    <div id="news-container" style="padding: 10px;">
+    </div>
   </div>
 
   <script language="javascript" type="text/javascript">
@@ -20,7 +27,8 @@
       connect();
 
       function log(msg) {
-        var control = $('#log');
+        var control = $('#news-container');
+        console.log(control.html());
         control.html(control.html() + msg + '<br/>');
         control.scrollTop(control.scrollTop() + 1000);
       }
@@ -34,13 +42,13 @@
         conn = new WebSocket(wsUri);
 
         conn.onopen = function () {
-          // log('Connected.');
+          // do something
         };
         conn.onmessage = function (e) {
-          log('Received: ' + e.data);
+          log(new Date().toISOString().split('T')[0] + ':');
+          log('New post: ' + e.data + '<br/>');
         };
         conn.onclose = function () {
-          // log('Disconnected.');
           conn = null;
         };
       }
